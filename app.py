@@ -2,6 +2,17 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
+# Disable caching for development
+@app.after_request
+def set_cache_control(response):
+    response.cache_control.max_age = 0
+    response.cache_control.no_cache = True
+    response.cache_control.no_store = True
+    response.cache_control.must_revalidate = True
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    return response
+
 
 # ------------------------------------------------------------------ #
 # Routes                                                              #
